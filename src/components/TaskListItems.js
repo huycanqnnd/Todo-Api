@@ -14,7 +14,7 @@ function TaskListItems({
           <input
             checked={task.isCompleted}
             type="checkbox"
-            onClick={() => onChangeCompleteStatus(task.id, !task.isCompleted)}
+            onChange={() => onChangeCompleteStatus(task.id, !task.isCompleted)}
           />
           <label>{task.taskName}</label>
         </div>
