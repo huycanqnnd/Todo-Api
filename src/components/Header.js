@@ -1,18 +1,44 @@
 import React, { useState } from "react";
 import classes from "./Header.module.css";
+import { addTodo } from "../services/TodoService";
 
-function Header({ onAddTodo }) {
+function Header({ reloaddingCount, setReLoaddingCount }) {
+  const [isLoadding, setLoading] = React.useState(false);
+
+  const [isError, setError] = React.useState(false);
+
   const [currentItem, setCurrentItem] = useState("");
+
   const handleChange = (value) => {
     setCurrentItem(value);
   };
 
+  const handleAddTodo = async (newTaskName) => {
+    try {
+      if (newTaskName) {
+        setLoading(true);
+
+        setError(false);
+
+        await addTodo(newTaskName);
+
+        setReLoaddingCount(reloaddingCount + 1);
+      }
+    } catch (ex) {
+      setError(true);
+    }
+  };
+
   const handeKeyDown = (event) => {
     if (event.keyCode === 13 && currentItem) {
-      onAddTodo(currentItem);
+      handleAddTodo(currentItem);
       setCurrentItem("");
     }
   };
+
+  // const onTodoAdded = () => {
+  //   setLoading(true);
+  // }
 
   return (
     <header className={classes.heading}>
